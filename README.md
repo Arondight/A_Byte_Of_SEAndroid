@@ -12,13 +12,26 @@ SEAndroid 的基本原理和应用权限拒绝的解决方法。
 + [下载PDF][ID_PDF]
 + [下载EPUB][ID_EPUB]
 
-鉴于服务器较差的中文字体支持，如需离线阅读推荐本地编译PDF：
+鉴于服务器较差的PDF 中文字体支持，离线阅读推荐下载EPUB，或者进行本地编译：
 
 ```shell
 git clone https://github.com/Arondight/A_Byte_Of_SEAndroid A_Byte_Of_SEAndroid
-gitbook pdf A_Byte_Of_SEAndroid
-xdg-open A_Byte_Of_SEAndroid/book.pdf
+cd A_Byte_Of_SEAndroid
 ```
+
+本地编译EPUB（推荐）：
+```shell
+gitbook epub .
+xdg-open book.epub
+```
+
+本地编译PDF：
+```shell
+gitbook pdf .
+xdg-open book.pdf
+```
+
+> 使用GitBook 本地编译需要安装`Calibre` 以提供EPUB 和PDF 的转换工具。
 
 [ID_GITHUB]: https://github.com/Arondight/A_Byte_Of_SEAndroid "点此跳转项目地址"
 [ID_ISSUES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/issues "点此提交Issues"

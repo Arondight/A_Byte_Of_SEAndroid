@@ -3,7 +3,7 @@
 ### 主体和客体（Subjects and Objects）
 
 * 主体：能够引起客体间的信息交换或者改变系统状态的实体（如进程）
-* 客体：可被主体使用的资源（如文件、管道、网络接口等）
+* 客体：可被主体使用的资源（如文件、pipe、Socket 等）
 
 > 更多信息请参阅官方文档[Subjects][ID_NB_Subjects]
 和[Objects][ID_NB_Objects]章节。
@@ -16,12 +16,19 @@
 Linux 下[coreutils](http://ftp.gnu.org/gnu/coreutils/) 中的一些指令提供了`-Z`
 参数，在SELinux 环境中，`-Z` 参数将会打印出对象对应的SELinux 的安全上下文。
 
-主体和客体都有对应的安全上下文，一个例子如下：
+主体和客体都有对应的安全上下文，一个主体的例子如下：
 
 ```shell
 root@scx35l64_sp9838aea_5mod:/ # ps -Z init
 LABEL                          USER     PID   PPID  NAME
 u:r:init:s0                    root      1     0     /init
+```
+
+一个客体的例子如下：
+
+```shell
+root@scx35l64_sp9838aea_5mod:/ # ls -Zl /init
+-rwxr-x--- root     root              u:object_r:rootfs:s0 init
 ```
 
 字段的含义如下：
@@ -43,10 +50,25 @@ u:r:init:s0                    root      1     0     /init
 
 ### 访问规则（Access Vector Rule）
 
-```
+#### TE 语言
+
+SEAndroid 的访问规则使用了TE 语言，该语言的基本语法如下：
+
+```selinux
 rule_name source_type target_type : class perm_set;
 规则名 主体 客体 : 类别 权限;
 ```
+
+一个TE 语句的例子如下：
+
+允许recovery 对wpa_socket 和data_file_type 的dir 类型具有create_dir_perms
+等三个权限：
+
+```selinux
+allow recovery {wpa_socket data_file_type}:dir {create_dir_perms relabelfrom relabelto};
+```
+
+#### `rule_name`
 
 | rule_name | 作用 |
 | --- | --- |
@@ -55,14 +77,48 @@ rule_name source_type target_type : class perm_set;
 | auditallow | 如果规则被allow 允许，事件发生时强制记录事件 |
 | dontaudit | 如果规则被neverallow 禁止，事件发生时强制**不**记录事件 |
 
-例子：
+#### `class` 和`perm_set`
 
+`class` 是对象的类别，SEAndroid 中在`external/sepolicy/security_classes` 定义。
+
+`perm_set` 是对象拥有的操作，在`external/sepolicy/access_vectors` 定义。
+
+`class` 字段和`perm_set` 的例子如下，
+例子中定义了一个数据库表的类别（`class`）和对应的操作（`perm_set`）：
+
+首先在文件`external/sepolicy/security_classes` 中定义一个数据表类别：
+
+```selinux
+class db_table			# userspace
 ```
-# 允许recovery 对vfat 的dir 类型具有create_dir_perms 权限
-allow recovery vfat:dir create_dir_perms;
 
-# 允许recovery 对wpa_socket 和data_file_type 的dir 类型具有create_dir_perms 等三个权限
-allow recovery {wpa_socket data_file_type}:dir {create_dir_perms relabelfrom relabelto};
+然后在文件`external/sepolicy/access_vectors` 中定义一个数据库类型的prefix：
+
+```selinux
+common database
+{
+	create
+	drop
+	getattr
+	setattr
+	relabelfrom
+	relabelto
+}
+```
+
+同一个文件中，其后定义了数据表的`perm_set`，继承了之前定义的database prefix：
+
+```selinux
+class db_table
+inherits database
+{
+	use		# deprecated
+	select
+	update
+	insert
+	delete
+	lock
+}
 ```
 
 > 更多信息请参阅官方文档[Access Vector Rules][ID_AVCRules]章节。
@@ -71,23 +127,26 @@ allow recovery {wpa_socket data_file_type}:dir {create_dir_perms relabelfrom rel
 
 ### 相关文件
 
-Android 源码目录中和SELinux 相关的文件如下：
-
 #### 原生部分
 
-1. `external/sepolicy/access_vectors`
-    * 定义了客体和对应的动作
-    * 所有客体：`grep -oP '(?<=^class\h)\w+' sepolicy/access_vectors | sort`
-    * 动作在每个客体之下单独定义
+1. `external/sepolicy/security_classes`
+    * 定义了`class`
+    * 所有类别`grep -oP '(?<=^class\h)\w+' external/sepolicy/security_classes | sort`
++ `external/sepolicy/access_vectors`
+    * 定义了`perm_set`，规定了对象和对象的操作
+    * 操作在每个对象之下单独定义，可能会有继承关系（见上节）
+    * 所有对象：`grep -oP '(?<=^class\h)\w+' external/sepolicy/access_vectors | sort`
 + `external/sepolicy/attributes`
     * 定义了属性
-    * 所有的属性：`grep -oP '(?<=^attribute\h)\w+' sepolicy/attributes | sort`
+    * 所有属性：`grep -oP '(?<=^attribute\h)\w+' external/sepolicy/attributes | sort`
 
 #### 共有部分
 
-| 原生 | 第三方（特指展讯） |
+| 分类 | 目录 |
 | --- | --- |
-| external/sepolicy | device/sprd/$BOARD/sepolicy |
+| 原生 | device/sprd/$BOARD/common/sepolicy |
+| 5.X 展讯 | device/sprd/$BOARD/sepolicy |
+| 6.X 展讯 | external/sepolicy |
 
 1. `*_contexts` 文件
     * 指定标记
@@ -96,5 +155,5 @@ Android 源码目录中和SELinux 相关的文件如下：
     * Android 的type 和访问规则
     * `find . -type f -name '*.te'`
 
-> PS: 优先修改第三方配置
+> PS: 优先修改第三方配置，尽量保持原生不动。
 
