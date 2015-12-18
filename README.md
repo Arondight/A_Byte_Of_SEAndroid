@@ -37,7 +37,7 @@ xdg-open book.pdf
 [ID_ISSUES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/issues "点此提交Issues"
 [ID_PULL_REQUESTS]: https://github.com/Arondight/A_Byte_Of_SEAndroid/pulls "点此查看Pull requests"
 [ID_GITBOOK]: https://github.com/GitbookIO/gitbook "点此跳转GitBook 项目地址"
-[ID_HTML]: https://arondight.gitbooks.io/A_Byte_Of_SEAndroid/content "点此阅读在线HTML"
+[ID_HTML]: https://www.gitbook.com/read/book/arondight/a_byte_of_seandroid "点此阅读在线HTML"
 [ID_PDF]: https://www.gitbook.com/download/pdf/book/arondight/A_Byte_Of_SEAndroid "点此获取PDF"
 [ID_EPUB]: https://www.gitbook.com/download/epub/book/arondight/a_byte_of_seandroid "点此获取EPUB"
 
