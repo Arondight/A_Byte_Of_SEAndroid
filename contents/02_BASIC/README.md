@@ -142,11 +142,11 @@ inherits database
 
 #### 共有部分
 
-| 分类 | 目录 |
+| 项目 | 目录 |
 | --- | --- |
-| 原生 | device/sprd/$BOARD/common/sepolicy |
-| 5.X 展讯 | device/sprd/$BOARD/sepolicy |
-| 6.X 展讯 | external/sepolicy |
+| 原生 | external/sepolicy |
+| 5.X 展讯 | device/sprd/${BOARD}/sepolicy |
+| 6.X 展讯 | device/sprd/${BOARD}/common/sepolicy |
 
 1. `*_contexts` 文件
     * 指定标记

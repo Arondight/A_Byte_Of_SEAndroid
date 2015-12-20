@@ -5,6 +5,8 @@ SEAndroid 的基本原理和应用权限拒绝的解决方法。
 如有需要完善的地方请提交[Issues][ID_ISSUES]
 或者[Pull Requests][ID_PULL_REQUESTS], 非常感谢。
 
+---
+
 使用[GitBook][ID_GITBOOK] 编写，文档相关的链接如下：
 
 1. [源代码][ID_GITHUB]
