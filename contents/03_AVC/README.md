@@ -72,7 +72,7 @@ type surfaceflinger, domain;
 
     `grep -rnP 'allow\h+surfaceflinger.+chr_file' external/sepolicy`
 
-2. 根据得到的客体类型修改`name` 字段的客体（这里是`mail0`）的安全上下文：
++ 根据得到的客体类型修改`name` 字段的客体（这里是`mail0`）的安全上下文：
 
     从第一步的结果来看，安全上下文的type 可以是`gpu_device`、`graphics_device`、
     `video_device` 和`tee_device`，这时候需要和对应的owner 沟通确认。

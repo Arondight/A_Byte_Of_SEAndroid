@@ -42,21 +42,22 @@ root@scx35l64_sp9838aea_5mod:/ # ls -Zl /init
 
 1. **user**: Android 中只有一个`u`
 + **role**: Android 中主体的对象为`r`， 客体的为`object_r`，没有其他情况
++ **type**：对象的类型
 + **range**: 不同级别的客体需要对应的主体访问，Android 中只有一个`s0`
 
 > 更多信息请参阅官方文档[Security Context][ID_Security_context]章节。
 
 [ID_Security_context]: http://selinuxproject.org/page/Security_context "点此跳转官方Wiki"
 
-### 访问规则（Access Vector Rule）
+### 访问策略（Access Vector Rule）
 
 #### TE 语言
 
-SEAndroid 的访问规则使用了TE 语言，该语言的基本语法如下：
+SEAndroid 的访问策略使用了TE 语言，该语言的基本语法如下：
 
 ```selinux
 rule_name source_type target_type : class perm_set;
-规则名 主体 客体 : 类别 权限;
+策略名 主体 客体 : 类别 权限;
 ```
 
 一个TE 语句的例子如下：
@@ -74,8 +75,8 @@ allow recovery {wpa_socket data_file_type}:dir {create_dir_perms relabelfrom rel
 | --- | --- |
 | allow | 允许主体对客体某类型具有某权限 |
 | neverallow | 类似allow，但作用为禁止 |
-| auditallow | 如果规则被allow 允许，事件发生时强制记录事件 |
-| dontaudit | 如果规则被neverallow 禁止，事件发生时强制**不**记录事件 |
+| auditallow | 如果策略被allow 允许，事件发生时强制记录事件 |
+| dontaudit | 如果策略被neverallow 禁止，事件发生时强制**不**记录事件 |
 
 #### `class` 和`perm_set`
 
@@ -137,7 +138,7 @@ inherits database
     * 操作在每个对象之下单独定义，可能会有继承关系（见上节）
     * 所有对象：`grep -oP '(?<=^class\h)\w+' external/sepolicy/access_vectors | sort`
 + `external/sepolicy/attributes`
-    * 定义了属性
+    * 定义了属性（属性不能被用于`allow` 语句中）
     * 所有属性：`grep -oP '(?<=^attribute\h)\w+' external/sepolicy/attributes | sort`
 
 #### 共有部分
@@ -149,10 +150,10 @@ inherits database
 | 6.X 展讯 | device/sprd/${BOARD}/common/sepolicy |
 
 1. `*_contexts` 文件
-    * 指定标记
+    * 安全上下文
     * `find . -type f -name '*_contexts'`
 + `*.te` 文件
-    * Android 的type 和访问规则
+    * 访问策略和对象的类型
     * `find . -type f -name '*.te'`
 
 > PS: 优先修改第三方配置，尽量保持原生不动。
