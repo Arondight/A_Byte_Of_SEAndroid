@@ -18,7 +18,35 @@ SELinux 是为了实现MAC 而诞生的产物。在SELinux 中，如果想访问
 
 #### SELinux 如何工作
 
+SELinux 在内核有一个LSM 模块，用户空间有Security Context、Security Server 和
+SEAndroid Policy 模块，用户空间和内核空间通过libselinux 交互。
+
 #### Discretionary Access Control (DAC)
 
+DAC 是Kernel 本身就支持的访问控制机制，通过给文件设置权限位来进行访问的控制。
+
+权限位分为4 个：特殊、用户、组、其他，每个权限位均体现为一个8 进制数字。
+
+特殊位如下：
+
+| 值 | 助记符 |  含义 | 例子 |
+| --- | --- | --- | --- |
+| 4 | suid | 以文件所属用户（而非当前用户）身份执行 | /usr/bin/passwd |
+| 2 | sgid | 以文件所属组身份执行 | /usr/bin/write |
+| 1 | sticky | 只能删除该目录下属于自己的文件 | /tmp/ |
+
+其他权限位如下：
+
+| 值 | 助记符 | 含义 |
+| --- | --- | --- |
+| 4 | w | 写权限 |
+| 2 | r | 读权限 |
+| 1 | x | 执行权限 |
+
+DAC 需要熟知，因为过DAC 是SELinux 权限检查的必要条件。
+
 #### Mandatory Access Control (MAC)
+
+DAC 检查通过后，会进行MAC 的检查，检查通过SELinux 中对象的安全上下文
+（Security Context）进行，下一章会具体说明。
 

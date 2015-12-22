@@ -1,11 +1,19 @@
 ## 策略部署
 
-### 策略应该写在哪儿
+### 策略的位置
 
 策略的位置可以参考[第二章](../02_BASIC/README.md) 的最后一部分：
 
 1. 对于访问策略，写到相应的`*.te` 文件中，优先考虑第三方配置
 + 对于安全上下文，写到相应的`*_contexts` 文件中，优先考虑第三方配置
+
+### 策略文件不存在
+
+如果需要新建一个策略文件，那么除了需要写入策略，还需要修改Makefile 以便能够
+让策略被正确编译。
+
+在文件`BoardConfigCommon.mk` 中查找`BOARD_SEPOLICY_UNION` 变量，修改它的值以
+包含新增的策略文件，然后再编译对应的image。
 
 ### 重新加载策略
 
@@ -36,6 +44,21 @@ SEAndroid 有两种运行模式：
 * 宽容模式：`setenforce 0`
 
 #### 全局调整
+
+Android 中提供一个可选的属性`ro.boot.selinux`，
+这个属性的值可以控制SEAndroid 的开关：
+
+| 值 | SEAndroid 状态 |
+| --- | --- |
+| *undef* | 强制模式 |
+| enforcing | 强制模式 |
+| permissive | 宽容模式 |
+| disable | 关闭SEAndroid |
+
+可以根据需求来在Makefile 中向bootimage 的default.prop 中写入这个属性来控制
+SEAndroid。
+
+> *undef* 为未定义，即此属性不存在
 
 ### user or userdebug
 
