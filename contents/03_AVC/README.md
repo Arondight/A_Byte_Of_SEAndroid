@@ -86,6 +86,15 @@ type surfaceflinger, domain;
 
 一般解决和原生策略的冲突需要对冲突项依次进行以上两步操作。
 
+最后还有一个问题，如何知道`name="mali0"` 对应`/dev/mail0`？
+
+```shell
+root@scx35l64_sp9838aea_5mod:/ # find /dev -name 'mail0'
+/dev/mail0
+```
+
+> 有些设备可能在`/dev` 的子目录之中，必须在手机中仔细确认。
+
 #### 无可用的客体类型
 
 如果第一步找不到可以操作的设备类型，那么就需要自己增加一个可用的类型。
