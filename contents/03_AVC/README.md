@@ -80,6 +80,10 @@ type surfaceflinger, domain;
 
     `/dev/mali0   u:object_r:gpu_device:s0`
 
++ 根据新的上下文重写策略：
+
+    `allow surfaceflinger gpu_device:chr_file { read write };`
+
 一般解决和原生策略的冲突需要对冲突项依次进行以上两步操作。
 
 #### 无可用的客体类型

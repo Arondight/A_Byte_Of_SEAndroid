@@ -23,6 +23,11 @@ sudo make install
 man 1 avcparser
 ```
 
+一个使用`avcparser` 处理权限拒绝log 的示例如下：
+```shell
+avcparser $(find slog_20151224171506_sp7731gea_hdr_userdebug/ -type f)
+```
+
 如果脚本对某些权限拒绝log 无法进行正确的处理，
 请提交[Issues][ID_SCIPRT_REPO_ISSUES] 并贴出相应的Case。
 
