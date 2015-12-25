@@ -29,8 +29,8 @@
 allow surfaceflinger device:chr_file { read write };
 ```
 
-在构造好`allow` 语句后，需要检查其后的`perm_set` 字段，看是否可用`global_macros`
-文件中的宏替代，并决定是否替代。
+**注意**：在构造好`allow` 语句后，需要检查其后的`perm_set` 字段，看是否可用
+`global_macros` 文件中的宏替代，并决定是否替代。
 
 实际情况中，slog 中往往含有大量的访问拒绝log，而且虽然每条都不相同，但是从关键
 字段上看，有很多log 往往都是重复的，这样很难进行人工排查。
@@ -76,28 +76,50 @@ type surfaceflinger, domain;
 找出`surfaceflinger` 可以操作什么客体的`chr_file` 类型：
 
 ```shell
-grep -rnP 'allow\h+surfaceflinger.+chr_file' external/sepolicy
+$ grep -rnP 'allow\h+surfaceflinger.+chr_file' external/sepolicy
+external/sepolicy/surfaceflinger.te:26:allow surfaceflinger gpu_device:chr_file rw_file_perms;
+external/sepolicy/surfaceflinger.te:30:allow surfaceflinger graphics_device:chr_file rw_file_perms;
+external/sepolicy/surfaceflinger.te:34:allow surfaceflinger video_device:chr_file rw_file_perms;
+external/sepolicy/surfaceflinger.te:58:allow surfaceflinger tee_device:chr_file rw_file_perms;
 ```
+从结果来看，安全上下文的type 可以是`gpu_device`、`graphics_device`、
+`video_device` 和`tee_device`，这时候需要和对应的owner 沟通确认。
 
-##### 修改客体安全上下文
+##### 设置客体安全上下文
 
 根据得到的客体类型修改`name` 字段的客体（这里是`mail0`）的安全上下文：
 
-从第一步的结果来看，安全上下文的type 可以是`gpu_device`、`graphics_device`、
-`video_device` 和`tee_device`，这时候需要和对应的owner 沟通确认。
+以`gpu_device` 为例，重新为设备`mail0` 指定上下文：
 
-以`gpu_device` 为例，重新为`/dev/mail0` 指定上下文：
+首先查找这个设备在手机中的路径：
 
 ```shell
+root@scx35l64_sp9838aea_5mod:/ # find /dev -name 'mail0'
+/dev/mail0
+```
+
+然后对设置设备文件的安全上下文。
+
+```selinux
 /dev/mali0   u:object_r:gpu_device:s0
 ```
+
+策略应该尽量使用正则合并以做到向后的兼容，例如存在大量形如`/dev/videoN` 的设备，
+都使用同一个上下文，那么为了今后增加的设备也被现在的规则兼容，应当使用正则表达式
+指定一系列文件的上下文：
+
+```selinux
+/dev/video[0-9]*	u:object_r:video_device:s0
+```
+
+> 有些设备文件可能在`/dev` 的子目录之中，必须在手机中仔细确认路径。
 
 ##### 根据新的上下文重写策略：
 
 首先检查原生策略，是否允许了对该客体类型的对应操作，如果原生没有该策略，需要
 添加第三方策略：
 
-```shell
+```selinux
 allow surfaceflinger gpu_device:chr_file { read write };
 ```
 
@@ -105,15 +127,6 @@ allow surfaceflinger gpu_device:chr_file { read write };
 完全包含，然后使用该宏在原生策略中再次进行检索。
 
 一般解决和原生策略的冲突需要对冲突项依次进行以上步骤操作。
-
-最后还有一个问题，如何知道`name="mali0"` 对应`/dev/mail0`？
-
-```shell
-root@scx35l64_sp9838aea_5mod:/ # find /dev -name 'mail0'
-/dev/mail0
-```
-
-> 有些设备可能在`/dev` 的子目录之中，必须在手机中仔细确认。
 
 #### 无可用的客体类型
 
