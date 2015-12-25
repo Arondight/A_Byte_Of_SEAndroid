@@ -15,8 +15,8 @@ SEAndroid 的基本原理和应用权限拒绝的解决方法。
 
 使用[GitBook][ID_GITBOOK] 编写，文档相关的链接如下：
 
-1. [项目地址][ID_GITHUB]
-+ [文档地址][ID_GITBOOK]
+1. [项目地址][ID_REPO]
++ [文档地址][ID_DOC]
 + [在线阅读][ID_HTML]（推荐）
 + [获取PDF][ID_PDF]
 + [获取EPUB][ID_EPUB]
@@ -42,8 +42,8 @@ xdg-open book.pdf
 
 > 使用GitBook 本地编译需要安装[Calibre][ID_Calibre] 以提供EPUB 和PDF 的转换工具。
 
-[ID_GITHUB]: https://github.com/Arondight/A_Byte_Of_SEAndroid "点此跳转项目地址"
-[ID_GITBOOK]: https://www.gitbook.com/book/arondight/A_Byte_Of_SEAndroid/details "点此跳转文档地址"
+[ID_REPO]: https://github.com/Arondight/A_Byte_Of_SEAndroid "点此跳转项目地址"
+[ID_DOC]: https://www.gitbook.com/book/arondight/A_Byte_Of_SEAndroid/details "点此跳转文档地址"
 [ID_ISSUES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/issues "点此提交Issues"
 [ID_PULL_REQUESTS]: https://github.com/Arondight/A_Byte_Of_SEAndroid/pulls "点此查看Pull requests"
 [ID_CHANGES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/blob/master/Changes.md "点此查看修订历史"
