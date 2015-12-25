@@ -140,6 +140,8 @@ inherits database
 + `external/sepolicy/attributes`
     * 定义了属性（属性不能被用于`allow` 语句中）
     * 所有属性：`grep -oP '(?<=^attribute\h)\w+' external/sepolicy/attributes | sort`
++ `gexternal/sepolicy/lobal_macros`
+    * 定义了所有宏，为一些权限集合的别名
 
 #### 共有部分
 

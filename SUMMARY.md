@@ -5,5 +5,4 @@
     * [策略部署](contents/04_LOAD/README.md)
 + 附录
     1. [avcparser](contents/11_SCRIPT/README.md)
-    * [修订历史](Changes.md)
 
