@@ -1,11 +1,12 @@
-# A Byte Of SEAndroid
+## A Byte Of SEAndroid
+
+### 关于文档
 
 SEAndroid 的基本原理和应用权限拒绝的解决方法。
 
 ### 完善文档
 
-如有需要完善的地方请提交[Issues][ID_ISSUES]
-或者[Pull Requests][ID_PULL_REQUESTS], 非常感谢。
+如有需要完善的地方请提交[Issues][ID_ISSUES] 或者[Pull Requests][ID_PULL_REQUESTS], 非常感谢。
 
 ### 修订历史
 
@@ -13,43 +14,31 @@ SEAndroid 的基本原理和应用权限拒绝的解决方法。
 
 ### 获取文档
 
-使用[GitBook][ID_GITBOOK] 编写，文档相关的链接如下：
+使用[GitBook][ID_GITBOOK] 编写，你可以在[Github][ID_REPO] 上找到这个项目，文档相关的链接如下：
 
-1. [项目地址][ID_REPO]
-+ [文档地址][ID_DOC]
-+ [在线阅读][ID_HTML]（推荐）
-+ [获取PDF][ID_PDF]
-+ [获取EPUB][ID_EPUB]
++ [在线阅读][ID_ONLINE]
++ [离线格式][ID_RELEASES]
 
-鉴于服务器较差的PDF 中文字体支持，离线阅读推荐下载EPUB，或者进行本地编译：
+你也可以本地编译为你喜好的格式：
 
-```shell
-git clone https://github.com/Arondight/A_Byte_Of_SEAndroid
-cd A_Byte_Of_SEAndroid
+```bash
+git clone https://github.com/Arondight/a_byte_of_seandroid
+cd a_byte_of_seandroid
+gitbook build . a_byte_of_seandroid
+gitbook epub . a_byte_of_seandroid.epub
+gitbook pdf . a_byte_of_seandroid.pdf
+gitbook mobi . a_byte_of_seandroid.mobi
 ```
 
-本地编译EPUB（推荐）：
-```shell
-gitbook epub .
-xdg-open book.epub
-```
+> 使用GitBook 本地编译需要安装[Calibre][ID_CALIBRE] 以提供EPUB、PDF 和MOBI 的转换工具。
 
-本地编译PDF：
-```shell
-gitbook pdf .
-xdg-open book.pdf
-```
-
-> 使用GitBook 本地编译需要安装[Calibre][ID_Calibre] 以提供EPUB 和PDF 的转换工具。
-
-[ID_REPO]: https://github.com/Arondight/A_Byte_Of_SEAndroid "点此跳转项目地址"
-[ID_DOC]: https://www.gitbook.com/book/arondight/A_Byte_Of_SEAndroid/details "点此跳转文档地址"
-[ID_ISSUES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/issues "点此提交Issues"
-[ID_PULL_REQUESTS]: https://github.com/Arondight/A_Byte_Of_SEAndroid/pulls "点此查看Pull requests"
-[ID_CHANGES]: https://github.com/Arondight/A_Byte_Of_SEAndroid/blob/master/Changes.md "点此查看修订历史"
-[ID_GITBOOK]: https://github.com/GitbookIO/gitbook "点此跳转GitBook 项目地址"
-[ID_HTML]: https://www.gitbook.com/read/book/arondight/a_byte_of_seandroid "点此阅读在线HTML"
-[ID_PDF]: https://www.gitbook.com/download/pdf/book/arondight/A_Byte_Of_SEAndroid "点此获取PDF"
-[ID_EPUB]: https://www.gitbook.com/download/epub/book/arondight/A_Byte_Of_SEAndroid "点此获取EPUB"
-[ID_Calibre]: https://github.com/kovidgoyal/calibre/releases "点此获取Calibre"
+[ID_REPO]: https://github.com/Arondight/a_byte_of_seandroid "跳转项目地址"
+[ID_DOC]: https://www.gitbook.com/book/arondight/a_byte_of_seandroid/details "跳转文档地址"
+[ID_ISSUES]: https://github.com/Arondight/a_byte_of_seandroid/issues "提交Issues"
+[ID_PULL_REQUESTS]: https://github.com/Arondight/a_byte_of_seandroid/pulls "查看Pull requests"
+[ID_CHANGES]: https://github.com/Arondight/a_byte_of_seandroid/blob/master/Changes.md "查看修订历史"
+[ID_GITBOOK]: https://github.com/GitbookIO/gitbook "跳转GitBook 项目地址"
+[ID_ONLINE]: https://www.gitbook.com/read/book/arondight/a_byte_of_seandroid "在线阅读"
+[ID_RELEASES]: https://github.com/Arondight/a_byte_of_seandroid/releases "获取离线格式"
+[ID_CALIBRE]: https://github.com/kovidgoyal/calibre/releases "获取Calibre"
 
