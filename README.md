@@ -24,10 +24,7 @@ SEAndroid 的基本原理和应用权限拒绝的解决方法。
 ```bash
 git clone https://github.com/Arondight/a_byte_of_seandroid
 cd a_byte_of_seandroid
-gitbook build . a_byte_of_seandroid
-gitbook epub . a_byte_of_seandroid.epub
-gitbook pdf . a_byte_of_seandroid.pdf
-gitbook mobi . a_byte_of_seandroid.mobi
+make all
 ```
 
 > 使用GitBook 本地编译需要安装[Calibre][ID_CALIBRE] 以提供EPUB、PDF 和MOBI 的转换工具。
@@ -38,7 +35,7 @@ gitbook mobi . a_byte_of_seandroid.mobi
 [ID_PULL_REQUESTS]: https://github.com/Arondight/a_byte_of_seandroid/pulls "查看Pull requests"
 [ID_CHANGES]: https://github.com/Arondight/a_byte_of_seandroid/blob/master/Changes.md "查看修订历史"
 [ID_GITBOOK]: https://github.com/GitbookIO/gitbook "跳转GitBook 项目地址"
-[ID_ONLINE]: https://www.gitbook.com/read/book/arondight/a_byte_of_seandroid "在线阅读"
+[ID_ONLINE]: https://www.gitbook.com/book/arondight/a_byte_of_seandroid/details "在线阅读"
 [ID_RELEASES]: https://github.com/Arondight/a_byte_of_seandroid/releases "获取离线格式"
 [ID_CALIBRE]: https://github.com/kovidgoyal/calibre/releases "获取Calibre"
 

@@ -18,7 +18,7 @@ tags*
 # Book build output
 /_book/
 /a_byte_of_seandroid/
-
+/a_byte_of_seandroid_html/
 
 # eBook build output
 *.epub
